@@ -1,0 +1,533 @@
+/*
+    Hestia custom theme: Glass
+    Colors, typography and frosted-glass effects. Structure lives in css/hx-layout.css.
+    Loads after default.min.css and hx-layout.css, so these rules override them.
+*/
+
+/* ==========================================================================
+   Font: Inter (self-hosted from /css/fonts)
+   ========================================================================== */
+
+@font-face {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("/css/fonts/inter-400.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+	src: url("/css/fonts/inter-500.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 600;
+	font-display: swap;
+	src: url("/css/fonts/inter-600.woff2") format("woff2");
+}
+
+:root {
+	color-scheme: dark;
+
+	/* Typography */
+	--font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+	--font-family-monospace: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
+	--border-radius-base: 10px;
+
+	/* Text: all tones are readable on the dark background */
+	--color-text: #d6deee;
+	--color-text-heading: #f4f7fd;
+	--color-text-link: #8fd3f4;
+	--color-text-link-hover: #bcd0ff;
+	--color-background: #0b1020;
+	--hx-muted: #9ba7c4;
+
+	/* Glass surfaces */
+	--glass-blur: blur(16px) saturate(140%);
+	--glass-fill: rgb(255 255 255 / 6%);
+	--glass-fill-hover: rgb(255 255 255 / 10%);
+	--glass-line: rgb(255 255 255 / 12%);
+
+	/* Structure tokens used by hx-layout.css */
+	--hx-card-bg: var(--glass-fill);
+	--hx-card-border: var(--glass-line);
+	--hx-card-shadow: 0 8px 24px rgb(0 0 0 / 22%);
+	--hx-sidebar-bg: rgb(12 17 34 / 66%);
+	--hx-hover: rgb(255 255 255 / 7%);
+	--hx-active-bg: rgb(143 211 244 / 13%);
+	--hx-active-text: #ffffff;
+	--hx-accent: #8fd3f4;
+	--hx-accent-2: #b4a2f5;
+	--hx-tile-hover-shadow: 0 12px 30px rgb(0 0 0 / 30%);
+	--hx-tile-hover-border: rgb(255 255 255 / 20%);
+
+	/* Top bar */
+	--top-bar-background: rgb(14 19 36 / 62%);
+	--top-bar-box-shadow: 0 6px 24px rgb(0 0 0 / 28%);
+	--top-bar-border-bottom: 1px solid rgb(255 255 255 / 9%);
+
+	/* Icons and charts */
+	--icon-color-blue: #8fd3f4;
+	--icon-color-lightblue: #bfe7fb;
+	--icon-color-purple: #b4a2f5;
+	--icon-color-maroon: #f0a3c8;
+	--icon-color-green: #86e3c0;
+	--icon-color-orange: #fbc38f;
+	--chart-label-color: #d6deee;
+	--chart-grid-color: rgb(255 255 255 / 9%);
+	--chart-line-1-color: #8fd3f4;
+	--chart-line-2-color: #f0a3c8;
+	--chart-line-3-color: #86e3c0;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+html,
+body {
+	min-height: 100%;
+	background-color: var(--color-background);
+}
+
+body {
+	background-image:
+		radial-gradient(circle at 12% 18%, rgb(124 58 237 / 30%) 0, transparent 38%),
+		radial-gradient(circle at 88% 22%, rgb(14 165 233 / 22%) 0, transparent 42%),
+		radial-gradient(circle at 60% 95%, rgb(236 72 153 / 14%) 0, transparent 45%),
+		linear-gradient(160deg, #0b1020 0%, #111a33 55%, #0a0f1f 100%);
+	background-attachment: fixed;
+	color: var(--color-text);
+	font-family: var(--font-family);
+	font-size: 0.9rem;
+	line-height: 1.55;
+	letter-spacing: 0.005em;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+}
+
+::selection {
+	background: rgb(143 211 244 / 30%);
+}
+
+* {
+	scrollbar-width: thin;
+	scrollbar-color: rgb(255 255 255 / 18%) transparent;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.login-title,
+.modal-title {
+	color: var(--color-text-heading);
+	font-weight: 600;
+	letter-spacing: -0.01em;
+}
+
+a {
+	color: var(--color-text-link);
+	transition: color 0.25s ease;
+}
+
+a:hover {
+	color: var(--color-text-link-hover);
+}
+
+/* ==========================================================================
+   Text and form fields: readable on dark glass
+   The default theme hard-codes dark grays for these; override them here.
+   ========================================================================== */
+
+label,
+.form-label,
+legend,
+.form-check-label,
+.form-check label {
+	color: #d6deee;
+	font-weight: 500;
+}
+
+input,
+textarea,
+select,
+.form-control,
+.form-select {
+	color: var(--color-text-heading);
+}
+
+::placeholder {
+	color: #7f8aa8;
+	opacity: 1;
+}
+
+.hint,
+.form-hint {
+	color: var(--hx-muted);
+}
+
+.form-control,
+.form-select,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="url"],
+input[type="tel"],
+textarea {
+	background-color: var(--glass-fill);
+	border: 1px solid rgb(255 255 255 / 14%);
+	border-radius: 10px;
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus,
+input:focus,
+textarea:focus,
+select:focus {
+	outline: none;
+	background-color: var(--glass-fill-hover);
+	border-color: rgb(143 211 244 / 50%);
+	box-shadow: 0 0 0 3px rgb(143 211 244 / 12%);
+}
+
+.form-control:disabled,
+.form-select:disabled,
+input:disabled,
+textarea:disabled {
+	background-color: rgb(255 255 255 / 4%);
+	color: #aab4cc;
+	-webkit-text-fill-color: #aab4cc;
+	cursor: not-allowed;
+}
+
+.form-select option {
+	background: #141b33;
+	color: var(--color-text-heading);
+}
+
+.hint,
+.form-hint,
+.hint a {
+	color: var(--hx-muted);
+}
+
+/* ==========================================================================
+   Surfaces
+   ========================================================================== */
+
+.top-bar {
+	background: var(--top-bar-background);
+	backdrop-filter: var(--glass-blur);
+	-webkit-backdrop-filter: var(--glass-blur);
+	box-shadow: var(--top-bar-box-shadow);
+	border-bottom: var(--top-bar-border-bottom);
+}
+
+.top-bar-logo {
+	filter: drop-shadow(0 0 6px rgb(143 211 244 / 25%));
+}
+
+.top-bar-usage-item,
+.top-bar-usage-inner {
+	color: #d6deee;
+}
+
+.top-bar-menu-link {
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.top-bar-menu-link:hover {
+	background-color: var(--glass-fill-hover);
+	border-radius: 10px;
+}
+
+.top-bar-menu-panel,
+.top-bar-notifications-panel {
+	background: rgb(18 24 44 / 90%);
+	backdrop-filter: var(--glass-blur);
+	-webkit-backdrop-filter: var(--glass-blur);
+	border: 1px solid var(--glass-line);
+	border-radius: 14px;
+	box-shadow: 0 12px 32px rgb(0 0 0 / 35%);
+}
+
+.hx-sidebar {
+	backdrop-filter: var(--glass-blur);
+	-webkit-backdrop-filter: var(--glass-blur);
+	box-shadow: 6px 0 24px rgb(0 0 0 / 18%);
+	border-right: 1px solid rgb(255 255 255 / 9%);
+}
+
+.hx-sidebar-home,
+.hx-link {
+	color: #d6deee;
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.hx-group-title {
+	color: #8c97b5;
+}
+
+.hx-link-count {
+	background: rgb(255 255 255 / 8%);
+	color: #b3bdd6;
+}
+
+.app-content > .toolbar {
+	background: rgb(14 19 36 / 50%);
+	backdrop-filter: var(--glass-blur);
+	-webkit-backdrop-filter: var(--glass-blur);
+	border: 0;
+	border-bottom: 1px solid rgb(255 255 255 / 10%);
+}
+
+.card,
+.panel,
+.stats-item,
+.box-collapse-header,
+.collapse-header,
+.units-table-header,
+.modal-content,
+.login,
+.clipboard,
+.shortcuts,
+.debug-panel-content,
+.tabs {
+	background: var(--glass-fill);
+	backdrop-filter: var(--glass-blur);
+	-webkit-backdrop-filter: var(--glass-blur);
+	border: 1px solid var(--glass-line);
+	border-radius: 14px;
+	box-shadow: var(--hx-card-shadow);
+}
+
+.units-table-header {
+	background: rgb(255 255 255 / 8%);
+	color: var(--color-text-heading);
+	border-radius: 14px 14px 0 0;
+}
+
+.units-table-row {
+	background: rgb(255 255 255 / 2%);
+	border-top: 1px solid rgb(255 255 255 / 6%);
+	transition: background-color 0.3s ease;
+}
+
+.units-table-row:hover {
+	background: rgb(255 255 255 / 6%);
+}
+
+.units-table-cell {
+	color: #d6deee;
+}
+
+.units-table-row a,
+.units-table-cell a {
+	color: var(--color-text-link);
+}
+
+.units-table-badge {
+	color: #e8edf8;
+	background: rgb(255 255 255 / 10%);
+	font-weight: 600;
+}
+
+.modal {
+	background: rgb(5 8 18 / 50%);
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
+}
+
+.modal-content {
+	background: rgb(18 24 44 / 88%);
+}
+
+.modal-message,
+.modal-content p {
+	color: #dfe6f5;
+}
+
+.app-footer {
+	background: rgb(10 14 28 / 40%);
+	backdrop-filter: var(--glass-blur);
+	-webkit-backdrop-filter: var(--glass-blur);
+	border-top: 1px solid rgb(255 255 255 / 10%);
+	color: #8c97b5;
+}
+
+/* ==========================================================================
+   Buttons: soft, no glare on hover
+   ========================================================================== */
+
+.button {
+	background: linear-gradient(135deg, rgb(143 211 244 / 20%), rgb(180 162 245 / 20%));
+	border: 1px solid rgb(255 255 255 / 15%);
+	border-radius: 10px;
+	color: #f4f7fd;
+	font-weight: 500;
+	box-shadow: 0 1px 2px rgb(0 0 0 / 22%);
+	transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, color 0.35s ease;
+}
+
+.button:hover {
+	background: linear-gradient(135deg, rgb(143 211 244 / 28%), rgb(180 162 245 / 28%));
+	border-color: rgb(255 255 255 / 22%);
+	box-shadow: 0 4px 14px rgb(0 0 0 / 26%);
+	color: #ffffff;
+}
+
+.button:active {
+	transform: none;
+}
+
+.button-secondary {
+	background: rgb(255 255 255 / 6%);
+	border: 1px solid rgb(255 255 255 / 12%);
+	color: #e6ecf8;
+	box-shadow: none;
+}
+
+.button-secondary:hover {
+	background: rgb(255 255 255 / 11%);
+	border-color: rgb(255 255 255 / 18%);
+	box-shadow: none;
+	color: #ffffff;
+}
+
+.button-danger {
+	background: rgb(244 63 94 / 26%);
+	border: 1px solid rgb(244 63 94 / 34%);
+	color: #ffffff;
+	box-shadow: none;
+}
+
+.button-danger:hover {
+	background: rgb(244 63 94 / 36%);
+	box-shadow: none;
+}
+
+/* ==========================================================================
+   Tiles and icons (hx-layout structure, calm glass styling)
+   ========================================================================== */
+
+.hx-tile-icon,
+.hx-section-icon,
+.hx-stat-icon {
+	background: linear-gradient(135deg, rgb(143 211 244 / 70%), rgb(180 162 245 / 65%));
+	box-shadow: 0 2px 8px rgb(0 0 0 / 22%);
+	transition: background 0.35s ease;
+}
+
+.hx-tile:hover .hx-tile-icon {
+	background: linear-gradient(135deg, rgb(143 211 244 / 82%), rgb(180 162 245 / 78%));
+}
+
+.hx-title span {
+	background: linear-gradient(90deg, #8fd3f4, #b4a2f5);
+	-webkit-background-clip: text;
+	background-clip: text;
+}
+
+.hx-search input {
+	transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.hx-search input:focus {
+	border-color: rgb(143 211 244 / 50%);
+	box-shadow: 0 0 0 3px rgb(143 211 244 / 12%);
+}
+
+
+/* ==========================================================================
+   Alerts: soft tinted glass instead of solid blocks
+   ========================================================================== */
+
+.alert {
+	background-color: rgb(255 255 255 / 6%);
+	border: 1px solid rgb(255 255 255 / 12%);
+	border-radius: 12px;
+	color: #e6ecf8;
+	box-shadow: none;
+	text-shadow: none;
+	backdrop-filter: var(--glass-blur);
+	-webkit-backdrop-filter: var(--glass-blur);
+}
+
+.alert-info {
+	background-color: rgb(96 165 250 / 14%);
+	border-color: rgb(96 165 250 / 32%);
+}
+
+.alert-success {
+	background-color: rgb(52 211 153 / 13%);
+	border-color: rgb(52 211 153 / 30%);
+}
+
+.alert-danger {
+	background-color: rgb(244 63 94 / 14%);
+	border-color: rgb(244 63 94 / 32%);
+}
+
+.alert-warning {
+	background-color: rgb(251 191 36 / 12%);
+	border-color: rgb(251 191 36 / 30%);
+}
+
+.inline-alert-warning {
+	color: #fcd34d;
+}
+
+.inline-alert-danger {
+	color: #fda4af;
+}
+
+.inline-alert-success {
+	color: #86efac;
+}
+
+
+/* Native checkboxes and radios follow the accent color */
+input[type="checkbox"],
+input[type="radio"] {
+	accent-color: #8fd3f4;
+}
+
+/* Login */
+.login {
+	padding: 28px;
+}
+
+/* Gentle entrance: opacity only, no motion */
+@media (prefers-reduced-motion: no-preference) {
+	.hx-tile,
+	.hx-stat,
+	.card,
+	.panel {
+		animation: glass-fade 0.4s ease both;
+	}
+}
+
+@keyframes glass-fade {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}

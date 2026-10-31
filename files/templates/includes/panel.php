@@ -1,0 +1,181 @@
+<?php require_once $_SERVER["DOCUMENT_ROOT"] . "/inc/nav.php"; ?>
+<div id="token" token="<?= $_SESSION["token"] ?>"></div>
+
+<header class="app-header" x-data="{ navOpen: false }">
+
+	<div class="top-bar">
+		<div class="container top-bar-inner">
+
+			<!-- Logo / Usage Statistics wrapper -->
+			<div class="top-bar-left">
+
+				<!-- Logo / Home Button -->
+				<a href="/" class="top-bar-logo" title="<?= htmlentities($_SESSION["APP_NAME"]) ?>">
+					<img src="/images/logo-header.svg" alt="<?= htmlentities($_SESSION["APP_NAME"]) ?>" width="54" height="29">
+				</a>
+
+				<!-- Usage Statistics -->
+				<div class="top-bar-usage">
+					<?php if ($_SESSION["look"] !== "") {
+     	$user_icon = "fa-binoculars";
+     } elseif ($_SESSION["userContext"] === "admin") {
+     	$user_icon = "fa-user-tie";
+     } else {
+     	$user_icon = "fa-user";
+     } ?>
+					<div class="top-bar-usage-inner">
+						<span class="top-bar-usage-item">
+							<i class="fas <?= $user_icon ?>" title="<?= _("Logged in as") ?>: <?= htmlspecialchars($panel[$user]["NAME"]) ?>"></i>
+							<span class="u-text-bold">
+								<?= htmlspecialchars($user) ?>
+							</span>
+						</span>
+						<span class="top-bar-usage-item">
+							<i class="fas fa-hard-drive" title="<?= _("Disk") ?>: <?= humanize_usage_size($panel[$user]["U_DISK"]) ?> <?= humanize_usage_measure($panel[$user]["U_DISK"]) ?>"></i>
+							<span class="u-text-bold">
+								<?= humanize_usage_size($panel[$user]["U_DISK"]) ?>
+							</span>
+							<?= humanize_usage_measure($panel[$user]["U_DISK"]) ?>
+							/
+							<span class="u-text-bold">
+							<?= humanize_usage_size($panel[$user]["DISK_QUOTA"]) ?>
+							</span>
+							<?= humanize_usage_measure($panel[$user]["DISK_QUOTA"]) ?>
+						</span>
+						<span class="top-bar-usage-item">
+							<i class="fas fa-right-left" title="<?= _("Bandwidth") ?>: <?= humanize_usage_size($panel[$user]["U_BANDWIDTH"]) ?> <?= humanize_usage_measure($panel[$user]["U_BANDWIDTH"]) ?>"></i>
+							<span class="u-text-bold">
+								<?= humanize_usage_size($panel[$user]["U_BANDWIDTH"]) ?>
+							</span>
+							<?= humanize_usage_measure($panel[$user]["U_BANDWIDTH"]) ?>
+							/
+							<span class="u-text-bold">
+								<?= humanize_usage_size($panel[$user]["BANDWIDTH"]) ?>
+							</span>
+							<?= humanize_usage_measure($panel[$user]["BANDWIDTH"]) ?>
+						</span>
+					</div>
+				</div>
+
+			</div>
+
+			<!-- Notifications / Menu wrapper -->
+			<div class="top-bar-right">
+
+				<!-- Notifications -->
+				<?php
+    $impersonatingAdmin = $_SESSION["userContext"] === "admin" && ($_SESSION["look"] !== "" && $user == $_SESSION["ROOT_USER"]) && $_SESSION["POLICY_SYSTEM_PROTECTED_ADMIN"] === "yes";
+    // Do not show notifications panel when impersonating 'admin' user
+    if (!$impersonatingAdmin) { ?>
+					<div x-data="notifications" class="top-bar-notifications">
+						<button
+							x-on:click="toggle()"
+							x-bind:class="open && 'active'"
+							class="top-bar-menu-link"
+							type="button"
+							title="<?= _("Notifications") ?>"
+						>
+							<i
+								x-bind:class="{
+									'animate__animated animate__swing icon-orange': (!initialized && <?= $panel[$user]["NOTIFICATIONS"] == "yes" ? "true" : "false" ?>) || notifications.length != 0,
+									'fas fa-bell': true
+								}"
+							></i>
+							<span class="u-hidden"><?= _("Notifications") ?></span>
+						</button>
+						<div
+							x-cloak
+							x-show="open"
+							x-on:click.outside="open = false"
+							class="top-bar-notifications-panel"
+						>
+							<template x-if="!initialized">
+								<div class="top-bar-notifications-empty">
+									<i class="fas fa-circle-notch fa-spin icon-dim"></i>
+									<p><?= _("Loading...") ?></p>
+								</div>
+							</template>
+							<template x-if="initialized && notifications.length == 0">
+								<div class="top-bar-notifications-empty">
+									<i class="fas fa-bell-slash icon-dim"></i>
+									<p><?= _("No notifications") ?></p>
+								</div>
+							</template>
+							<template x-if="initialized && notifications.length > 0">
+								<ul>
+									<template x-for="notification in notifications" :key="notification.ID">
+										<li
+											x-bind:id="`notification-${notification.ID}`"
+											x-bind:class="notification.ACK && 'unseen'"
+											class="top-bar-notification-item"
+											x-data="{ open: true }"
+											x-show="open"
+											x-collapse
+										>
+											<div class="top-bar-notification-inner">
+												<div class="top-bar-notification-header">
+													<p x-text="notification.TOPIC" class="top-bar-notification-title"></p>
+													<button
+														x-on:click="open = false; setTimeout(() => remove(notification.ID), 300);"
+														type="button"
+														class="top-bar-notification-delete"
+														title="<?= _("Delete notification") ?>"
+													>
+														<i class="fas fa-xmark"></i>
+														<span class="u-hidden-visually"><?= _("Delete notification") ?></span>
+													</button>
+												</div>
+												<div class="top-bar-notification-content" x-html="notification.NOTICE"></div>
+												<p class="top-bar-notification-timestamp">
+													<time
+														:datetime="`${notification.TIMESTAMP_ISO}`"
+														x-bind:title="`${notification.TIMESTAMP_TITLE}`"
+														x-text="`${notification.TIMESTAMP_TEXT}`"
+													></time>
+												</p>
+											</div>
+										</li>
+									</template>
+								</ul>
+							</template>
+							<template x-if="initialized && notifications.length > 2">
+								<button
+									x-on:click="removeAll()"
+									type="button"
+									class="top-bar-notifications-delete-all"
+								>
+									<i class="fas fa-check"></i>
+									<?= _("Delete all notifications") ?>
+								</button>
+							</template>
+						</div>
+					</div>
+				<?php }
+    ?>
+
+				<!-- Quick actions -->
+				<div class="top-bar-quick">
+					<button type="button" class="top-bar-menu-link hx-menu-toggle" x-on:click="navOpen = !navOpen" title="<?= tohtml(_("Menu")) ?>" aria-label="<?= tohtml(_("Menu")) ?>">
+						<i class="fas fa-bars"></i>
+					</button>
+					<a href="/home/" class="top-bar-menu-link" title="<?= tohtml(_("Home")) ?>" aria-label="<?= tohtml(_("Home")) ?>">
+						<i class="fas fa-house"></i>
+					</a>
+					<a href="https://hestiacp.com/docs/" target="_blank" rel="noopener" class="top-bar-menu-link" title="<?= tohtml(_("Help")) ?>" aria-label="<?= tohtml(_("Help")) ?>">
+						<i class="fas fa-circle-question"></i>
+					</a>
+					<a href="/logout/?token=<?= $_SESSION["token"] ?>" class="top-bar-menu-link top-bar-menu-link-logout" title="<?= tohtml(_("Log out")) ?>" aria-label="<?= tohtml(_("Log out")) ?>">
+						<i class="fas fa-right-from-bracket"></i>
+					</a>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	<?php include dirname(__FILE__) . "/sidebar.php"; ?>
+
+</header>
+
+<main class="app-content">
