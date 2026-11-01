@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.0.1 - 2026-11-01
 
 - Glass: readable text in all form fields (including disabled ones), no text shadows, larger text in buttons and labels.
 - Glass: darker login page with a larger card and larger text.

@@ -33,6 +33,8 @@ Screenshots use a demo account and placeholder names. No real domains or address
 <img src="docs/screenshots/mobile-menu.png" alt="Phone menu" width="260">
 </p>
 
+Current version: **1.0.1** (see [CHANGELOG.md](CHANGELOG.md)).
+
 ## Compatibility
 
 Built and tested for **Hestia Control Panel 1.10.5** on Ubuntu 26.04.
