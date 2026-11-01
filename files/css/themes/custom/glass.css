@@ -507,6 +507,87 @@ input[type="radio"] {
 	accent-color: #8fd3f4;
 }
 
+
+/* ==========================================================================
+   Final overrides: form text, buttons and top-bar icons
+   Hestia's own rules have higher specificity for some of these, so use !important
+   on the few properties that must win. Disabled fields keep their own style.
+   ========================================================================== */
+
+textarea:not(:disabled),
+input:not(:disabled):not([type="checkbox"]):not([type="radio"]),
+select:not(:disabled),
+.form-control:not(:disabled),
+.form-select:not(:disabled) {
+	color: #f4f7fd !important;
+	-webkit-text-fill-color: #f4f7fd !important;
+	background-color: rgb(255 255 255 / 6%) !important;
+	font-size: 0.95rem;
+	text-shadow: none !important;
+}
+
+textarea:not(:disabled)::placeholder,
+input:not(:disabled)::placeholder {
+	color: #7f8aa8 !important;
+	-webkit-text-fill-color: #7f8aa8 !important;
+}
+
+label,
+.form-label {
+	font-size: 0.92rem;
+	text-shadow: none !important;
+}
+
+.button,
+a.button,
+button.button,
+.button-secondary,
+.button-danger,
+.button-back {
+	color: #f4f7fd !important;
+	-webkit-text-fill-color: #f4f7fd !important;
+	text-shadow: none !important;
+	font-size: 0.95rem;
+	font-weight: 500;
+	letter-spacing: 0.01em;
+}
+
+.button:hover,
+.button-secondary:hover,
+.button-danger:hover {
+	color: #ffffff !important;
+	-webkit-text-fill-color: #ffffff !important;
+	text-shadow: none !important;
+}
+
+.top-bar-menu-link,
+.top-bar-menu-link *,
+.top-bar-usage-item,
+.top-bar-usage-inner,
+.top-bar-usage-item * {
+	text-shadow: none !important;
+}
+
+.top-bar-menu-link {
+	font-size: 1rem;
+	color: #e6ecf8;
+}
+
+.top-bar-menu-link .fas {
+	font-size: 1.05rem;
+}
+
+.top-bar-usage-item,
+.top-bar-usage-inner {
+	font-size: 0.9rem;
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled {
+	text-shadow: none;
+}
+
 /* Login */
 .login {
 	padding: 28px;
