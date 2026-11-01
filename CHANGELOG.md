@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Glass: readable text in all form fields (including disabled ones), no text shadows, larger text in buttons and labels.
+- Glass: darker login page with a larger card and larger text.
+- Glass: collapsible sections with proper padding; stopped services are readable.
+
 ## 1.0.0
 
 - Initial release.
