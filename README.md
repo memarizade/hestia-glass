@@ -10,6 +10,29 @@ A cPanel / DirectAdmin style layout and a frosted-glass theme for the
 
 > This project is not affiliated with or endorsed by the Hestia Control Panel project.
 
+## Screenshots
+
+Screenshots use a demo account and placeholder names. No real domains or addresses are shown.
+
+**Admin: tile home**
+![Admin home](docs/screenshots/admin-home.png)
+
+**Customer: tile home**
+![Customer home](docs/screenshots/customer-home.png)
+
+**Customer: web domains with the sidebar**
+![Web domains](docs/screenshots/customer-web-domains.png)
+
+**Edit form: readable text on dark glass**
+![Edit web domain](docs/screenshots/edit-web-domain.png)
+
+**Phone: tile home and side menu**
+
+<p>
+<img src="docs/screenshots/mobile-home.png" alt="Phone home" width="260">
+<img src="docs/screenshots/mobile-menu.png" alt="Phone menu" width="260">
+</p>
+
 ## Compatibility
 
 Built and tested for **Hestia Control Panel 1.10.5** on Ubuntu 26.04.
